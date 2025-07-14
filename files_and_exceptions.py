@@ -1,11 +1,20 @@
-def read_file_to_dict(filename):
-    """Lee un archivo de ventas donde cada venta es producto:valor_de_venta;... y agrupa los valores por producto en una lista.
+def read_file_to_dict(entrada):
+    dic_final={}
+    try:
+        with open(entrada,"r") as archivo:
+            contenido=archivo.read()
+            sin_punto_coma=contenido.split(";")
+            for formato in sin_punto_coma:
+                for producto,valor in formato:
+                    if producto not in dic_final:
+                        dic_final[producto]=[]
+                    dic_final[producto].append(valor)
+        return dic_final
 
-    :param filename: str - nombre del archivo a leer.
-    :return: dict - diccionario con listas de montos por producto.
-    :raises: FileNotFoundError - si el archivo no existe.
-    """
-    return {}
+    except FileNotFoundError:
+        print("No existe el archivo",entrada)
+    except Exception as e:
+        print("Ocurrio un error inesperado",e)
 
 
 def process_dict(data):
